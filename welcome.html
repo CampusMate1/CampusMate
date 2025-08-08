@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome - CampusMate</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Bangers&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", sans-serif;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background-color: #ffffff;
+        border-bottom: 2px solid #e0e0e0;
+      }
+
+      .main-heading {
+        font-size: 20px;
+        margin: 0;
+        text-align: center;
+        line-height: 1;
+      }
+
+      .main-heading .campus {
+        display: block;
+        color: #3b77cc;
+        font-family: "Bangers", cursive;
+        font-size: 40px;
+        margin: 0;
+      }
+
+      .main-heading .mate {
+        display: block;
+        color: #f9b13c;
+        font-family: "Anton", sans-serif;
+        font-size: 30px;
+        margin: 0;
+        position: relative;
+      }
+
+      .top-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .top-links a {
+        text-decoration: none;
+        color: #222831;
+        font-weight: lighter;
+        font-size: 16px;
+      }
+
+      .top-links a:hover {
+        color: #fdb44b;
+      }
+
+      .hero {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: -100px;
+        right: -100px;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, #5d9fff, #3b77cc);
+        opacity: 0.2;
+        border-radius: 50%;
+        z-index: 0;
+      }
+
+      .hero h1 {
+        font-size: 48px;
+        font-weight: bold;
+        color: #3b77cc;
+        margin-bottom: 20px;
+        animation: fadeInUp 1s ease forwards;
+        opacity: 0;
+        z-index: 1;
+      }
+
+      .hero p {
+        font-size: 18px;
+        color: #444;
+        max-width: 500px;
+        margin-bottom: 30px;
+        animation: fadeInUp 1s ease 0.4s forwards;
+        opacity: 0;
+        z-index: 1;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 20px;
+        animation: fadeInUp 1s ease 0.8s forwards;
+        opacity: 0;
+        z-index: 1;
+      }
+
+      .button-group a,
+      .button-group button {
+        padding: 14px 28px;
+        background-color: #fdb44b;
+        color: #222831;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .button-group a:hover,
+      .button-group button:hover {
+        background-color: #3b77cc;
+        color: white;
+      }
+
+      footer {
+        text-align: center;
+        padding: 15px;
+        background-color: #f4f4f4;
+        color: #333;
+        font-size: 14px;
+        border-top: 1px solid #ddd;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .top-links {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .button-group {
+          flex-direction: column;
+        }
+
+        .hero h1 {
+          font-size: 36px;
+        }
+
+        .hero p {
+          font-size: 16px;
+        }
+      }
+
+      /* POPUP STYLES */
+      .popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+      }
+
+      .popup-content {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .popup-content h3 {
+        margin-bottom: 20px;
+        font-size: 22px;
+        color: #3b77cc;
+      }
+
+      .popup-content button {
+        margin: 10px;
+        padding: 12px 24px;
+        font-size: 16px;
+        background-color: #fdb44b;
+        color: #222831;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s ease;
+      }
+
+      .popup-content button:hover {
+        background-color: #007bff;
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <h1 class="main-heading">
+        <span class="campus">CAMPUS</span><span class="mate">MATE</span>
+      </h1>
+      <div class="top-links">
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+      <h1>Welcome to CampusMate</h1>
+      <p>
+        Your trusted platform for campus health appointments and student
+        support.
+      </p>
+      <div class="button-group">
+        <button onclick="showLoginPopup()">Login</button>
+        <a href="signup.html">Sign Up</a>
+      </div>
+    </div>
+
+    <!-- Login Role Popup -->
+    <div class="popup" id="loginPopup">
+      <div class="popup-content">
+        <h3>Login as:</h3>
+        <button onclick="goToLogin('student')">Student</button>
+        <button onclick="goToLogin('staff')">Staff</button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>@2025 CampusMate Health Services</footer>
+
+    <!-- Script -->
+    <script>
+      function showLoginPopup() {
+        document.getElementById("loginPopup").style.display = "flex";
+      }
+
+      function goToLogin(role) {
+        if (role === "student") {
+          window.location.href = "student.html";
+        } else {
+          window.location.href = "admin.html";
+        }
+      }
+
+      // Optional: click outside popup to close
+      window.addEventListener("click", function (e) {
+        const popup = document.getElementById("loginPopup");
+        if (e.target === popup) {
+          popup.style.display = "none";
+        }
+      });
+    </script>
+  </body>
+</html>

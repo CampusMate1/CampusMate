@@ -1,36 +1,36 @@
 import {pool} from '../Config/config.js'
 
 const getStudentDb = async()=>{
-    let [data] = await pool.query("SELECT * FROM Student ")
+    let [data] = await pool.query("SELECT * FROM student ")
     return data
 }
-const selectStudentDb =  async(emailAdd)=>{
-    let [[data]] = await pool.query('SELECT *FROM users WHERE emailAdd= ?',[emailAdd])
+const selectStudentDb =  async(email)=>{
+    let [[data]] = await pool.query('SELECT *FROM student WHERE emailAdd= ?',[email])
     return data? data : ''; 
     
     
 }
-const selectStudentIDDb =  async(userID)=>{
-    let [[data]] = await pool.query('SELECT *FROM users WHERE userID= ?',[userID])
+const selectStudentIDDb =  async(stud_no)=>{
+    let [[data]] = await pool.query('SELECT *FROM student WHERE stud_no= ?',[stud_no])
     return data; 
     
     
 }
-const insertStudentDb =async(firstName,lastName,userAge,Gender,userRole,emailAdd,userPass,userProfile)=>{
+const insertStudentDb =async(stud_no,first_name,last_name,email,phone_number,password)=>{
     let [data] =await pool.query(`
-        INSERT INTO users(firstName,lastName,userAge,Gender,userRole,emailAdd,userPass,userProfile)
-        VALUES (?,?,?,?,?,?,?,?)
-        `,[firstName,lastName,userAge,Gender,userRole,emailAdd,userPass,userProfile])
+        INSERT INTO student(stud_no,first_name,last_name,email,phone_number,password)
+        VALUES (?,?,?,?,?,?)
+        `,[stud_no,first_name,last_name,email,phone_number,password])
      return data
     }
-    const deleteStudentDb=async(userID)=>{
-        await pool.query(' DELETE FROM users WHERE userID = ?',[userID])
+    const deleteStudentDb=async(stud_no)=>{
+        await pool.query(' DELETE FROM Student WHERE stud_no = ?',[stud_no])
                // return data 
            }
 
-    const updateStudentDb=async(firstName,lastName,userAge,Gender,emailAdd,userProfile, userID)=>{
+    const updateStudentDb=async(first_name,last_name,email,phone_number,password, stud_no)=>{
         
-          await pool.query('UPDATE users SET firstName = ?, lastName = ?, userAge = ?, Gender = ?, emailAdd = ?  ,userProfile = ? WHERE userID = ?', [firstName,lastName,userAge,Gender,emailAdd,userProfile, userID]);
+          await pool.query('UPDATE student SET first_name = ?, last_name = ?,  email = ?  ,phone_number = ? ,password =? WHERE stud_no = ?', [first_name,last_name,email,phone_number,password, stud_no]);
 
         }; 
     

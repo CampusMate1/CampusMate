@@ -1,19 +1,19 @@
 import {compare} from 'bcrypt'
-import { selectStudentDb } from '../model/usersDb.js'
+import { selectStudentDb } from '../Model/StudentDB.js'
 import jwt from 'jsonwebtoken'
 import {config} from 'dotenv'
 
 config()
 const checkStudent=async(req,res,next)=>{
-    const {emailAdd, userPass} =req.body
-    let hashedP =(await selectStudentDb(emailAdd)).userPass
+    const {email, password} =req.body
+    let hashedP =(await selectStudentDb(email)).password
     console.log(hashedP);
 
-let result = await compare(userPass,hashedP )
+let result = await compare(password,hashedP )
 console.log(result);
 
         if(result ==true) {
-            let token =jwt.sign({emailAdd:emailAdd},process.env.SECRET_KEY)
+            let token =jwt.sign({email:email},process.env.SECRET_KEY)
             // console.log(token);
              
             req.body.token =token
@@ -51,7 +51,7 @@ const verifyAToken =(req,res,next)=>{
         if(err){
             res.json({message:'Token invalid'})
         }else{
-              req.body.user =decoded.emailAdd
+              req.body.user =decoded.email
         // console.log(decoded);
            next()
         }
