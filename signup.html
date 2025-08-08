@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CPUT Campus Mate - Sign Up</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Bangers&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(
+          -225deg,
+          #5d9fff 0%,
+          #b8dcff 48%,
+          #6bbbff 100%
+        );
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        background-color: #ffffff;
+      }
+
+      .main-heading {
+        font-size: 20px;
+        margin: 0;
+        text-align: center;
+        line-height: 1;
+      }
+
+      .main-heading .campus {
+        display: block;
+        color: #3b77cc;
+        font-family: "Bangers", cursive;
+        font-size: 40px;
+        margin: 0;
+        padding: 0;
+      }
+
+      .main-heading .mate {
+        display: block;
+        color: #f9b13c;
+        font-family: "Anton", sans-serif;
+        font-size: 30px;
+        line-height: 1;
+        margin: 0;
+        padding: 0;
+        position: relative;
+      }
+
+      .main-heading .mate::after {
+        content: "";
+        display: block;
+        width: 100px;
+        height: 8px;
+        background-color: #1d1d1d;
+        margin: 0 auto;
+      }
+
+      .top-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .top-links a {
+        text-decoration: none;
+        color: #222831;
+        font-weight: lighter;
+      }
+
+      .top-links a:hover {
+        color: #fdb44b;
+      }
+
+      .page-title {
+        font-family: "Bangers", cursive;
+        font-size: 32px;
+        color: #3b77cc;
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 10px;
+      }
+
+      .container {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      input,
+      button {
+        width: 100%;
+        padding: 14px;
+        margin-top: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 1em;
+        box-sizing: border-box;
+      }
+
+      button {
+        background-color: #fdb44b;
+        color: #222831;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #007bff;
+        color: white;
+      }
+
+      .error {
+        color: red;
+        text-align: center;
+        font-size: 0.9em;
+        margin-top: 10px;
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 40px;
+        padding: 15px;
+        background-color: white;
+        color: black;
+        font-size: 14px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+
+      @media (max-width: 600px) {
+        .header {
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .top-links {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header with logo and CampusMate text -->
+    <div class="header">
+      <h1 class="main-heading">
+        <span class="campus">CAMPUS</span><span class="mate">MATE</span>
+      </h1>
+      <div class="top-links">
+        <a href="welcome.html">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+
+    <!-- Centered Page Title -->
+    <h1 class="page-title">Welcome to CampusMate</h1>
+
+    <!-- Signup Form -->
+    <div class="container">
+      <input type="text" id="name" placeholder="Name" required />
+      <input type="text" id="Surname" placeholder="Surname" required />
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        placeholder="+27 787654321"
+        pattern="^\+27\s\d{9}$"
+        required
+      />
+
+      <input
+        type="text"
+        id="studentNumber"
+        placeholder="Student Number"
+        required
+      />
+      <input
+        type="email"
+        id="email"
+        placeholder="CPUT Email (@mycput.ac.za)"
+        required
+      />
+      <input type="password" id="password" placeholder="Password" required />
+      <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm Password"
+        required
+      />
+      <button onclick="signUp()">Sign Up</button>
+      <p class="error" id="errorMsg"></p>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+      import {
+        getAuth,
+        createUserWithEmailAndPassword,
+      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDaujWitwtbnOTH2KbN6O6wcon91yE_gQ4",
+        authDomain: "campusmate-e3d9e.firebaseapp.com",
+        projectId: "campusmate-e3d9e",
+        storageBucket: "campusmate-e3d9e.appspot.com",
+        messagingSenderId: "491465655290",
+        appId: "1:491465655290:web:0fc5214833a4a52bfe1a43",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+
+      window.signUp = async () => {
+        const studentNumber = document
+          .getElementById("studentNumber")
+          .value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const confirmPassword =
+          document.getElementById("confirmPassword").value;
+        const errorMsg = document.getElementById("errorMsg");
+
+        errorMsg.textContent = "";
+
+        if (!studentNumber || !email || !password || !confirmPassword) {
+          errorMsg.textContent = "All fields are required.";
+          return;
+        }
+
+        if (!email.endsWith("@mycput.ac.za")) {
+          errorMsg.textContent = "Use your @mycput.ac.za email only.";
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          errorMsg.textContent = "Passwords do not match.";
+          return;
+        }
+
+        try {
+          await createUserWithEmailAndPassword(auth, email, password);
+          window.location.href = "student.html"; // Redirect to student login
+        } catch (error) {
+          errorMsg.textContent = error.message;
+        }
+      };
+    </script>
+
+    <footer>@2025 CampusMate Health Services</footer>
+  </body>
+</html>

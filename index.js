@@ -1,10 +1,14 @@
 import express from 'express'
+
 import StudentRouter from './Routes/StudentRouter.js'
+import axios from 'axios';
+
 
 import cors from 'cors'
 
 const app =express()
-let port=process.env.PORT || 5005
+
+let port=process.env.PORT || 4000
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Credentials", "true");
@@ -15,6 +19,11 @@ app.use((req, res, next) => {
     next()
 })
 app.use(express.json())
+app.use((req, res, next) => {
+    console.log("Headers:", req.headers);
+    next();
+  });
+  
 app.use(express.static('public'))
 app.use(cors())
 
