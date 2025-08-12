@@ -14,10 +14,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Connect to MySQL
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'campusmate_user',
-  password: 'your_new_password',  // <-- Replace with your DB password
-  database: 'campusmate'
+  host :'b12k3n0gnleccou2eqyc-mysql.services.clever-cloud.com',
+user :'ukjuxafahmphiwc2',
+database :'b12k3n0gnleccou2eqyc',
+password :'mOxV7QtscFnLws7Swa4o',
+port : 3306
+
 });
 
 db.connect(err => {
@@ -27,6 +29,47 @@ db.connect(err => {
   }
   console.log('✅ MySQL Connected!');
 });
+//Get all students route
+app.get('/students' ,async (req,res ) =>{
+  console.log(req.body);
+    
+      db.query("SELECT * FROM student", (err, results) => {
+        if (err) {
+          console.error("❌ Student not found !:", err);
+          return res.status(500).json({ message: "Database error" });
+        }
+        res.status(200).json(results);
+        res.send(results);
+      });
+      
+  
+    
+});
+
+//Delete a student
+app.delete('/students/:stud_no', (req, res) => {
+  const { stud_no } = req.params;
+
+  if (!stud_no) {
+    return res.status(400).json({ message: "Student number is required" });
+  }
+
+  const sql = 'DELETE FROM student WHERE stud_no = ?';
+
+  db.query(sql, [stud_no], (err, result) => {
+    if (err) {
+      console.error("❌ Error deleting student:", err);
+      return res.status(500).json({ message: "Database error", error: err.message });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "❌ Student not found" });
+    }
+
+    res.status(200).json({ message: "✅ Student deleted successfully" });
+  });
+});
+
 
 // Register Route
 app.post('/register', async (req, res) => {
@@ -37,34 +80,38 @@ app.post('/register', async (req, res) => {
     last_name,
     email,
     phone_number,
-    department_id,
-    service_id,
     password
   } = req.body;
 
   if (!stud_no || !first_name || !last_name || !email || !phone_number || !password) {
     return res.status(400).json({ message: "All required fields must be filled" });
   }
-
+  
+  
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    
 
     const sql = `
       INSERT INTO student 
-      (stud_no, first_name, last_name, email, phone_number, department_id, service_id, password)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+      (stud_no, first_name, last_name, email, phone_number,  password)
+      VALUES (?, ?, ?, ?, ?, ?)`;
 
-    db.query(sql, [stud_no, first_name, last_name, email, phone_number, department_id, service_id, hashedPassword], (err, result) => {
+    db.query(sql, [stud_no, first_name, last_name, email, phone_number,  hashedPassword], (err, result) => {
       if (err) {
         console.error("❌ Registration error:", err);
-        return res.status(500).json({ message: 'Failed to register', error: err.sqlMessage });
+        return res.status(500).json({ message: 'Failed to register', error: err.message});
       }
       res.status(201).json({ message: '✅ Student registered successfully' });
+      console.log(result);
     });
   } catch (error) {
     console.error("❌ Hashing error:", error);
-    res.status(500).json({ message: "Server error" });
+    
   }
+  
 });
 
 // Login Route
@@ -103,12 +150,11 @@ app.post('/login', (req, res) => {
           last_name: student.last_name,
           email: student.email,
           phone_number: student.phone_number,
-          department_id: student.department_id,
-          service_id: student.service_id
+         
         }
       });
     } catch (error) {
-      console.error("❌ Password compare error:", error);
+      console.error("❌ Password Invalid ! put correct password:", error);
       res.status(500).json({ message: "Server error" });
     }
   });
