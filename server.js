@@ -118,7 +118,7 @@ app.post('/register', async (req, res) => {
 app.post('/login', (req, res) => {
   const { stud_no, email, password } = req.body;
 
-  if (!stud_no || !email || !password) {
+  if (!stud_no || !email || !password  ) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
