@@ -28,6 +28,7 @@ db.connect(err => {
     return;
   }
   console.log('✅ MySQL Connected!');
+ 
 });
 //Get all students route
 app.get('/students' ,async (req,res ) =>{
