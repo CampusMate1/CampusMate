@@ -7,6 +7,13 @@ const path = require('path');
 
 const app = express();
 app.use(cors());
+
+// Or configure it more specifically:
+app.use(cors({
+  origin: 'http://localhost:3000', // or your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 app.use(bodyParser.json());
 
 // Serve static frontend files from 'public' folder
@@ -303,34 +310,4 @@ app.delete('/employees/:employee_id', (req, res) => {
 });
 
 
-// Start server
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
-})
-const https = require('https');
-const fs = require('fs');
-const express = require('express');
-
-const axios = require('axios');
-const app = express();
-const options = {
-  key: fs.readFileSync('server.key'),
-  cert: fs.readFileSync('server.crt')
-};
-
-https.createServer(options, app).listen(443, () => {
-  console.log('Running on HTTPS port 443');
-});
-
-app.get('/students', async (req, res) => {
-  try {
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/students`);
-    res.json(response.data);
-  } catch (error) {
-    res.status(500).send('Error fetching posts');
-  }
-});
-
-app.listen(4000, () => console.log('Server running on port 4000'));

@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.6bebdc19.css",
-    "main.js": "/static/js/main.1d1b3f8b.js",
-    "index.html": "/index.html",
-    "main.6bebdc19.css.map": "/static/css/main.6bebdc19.css.map",
-    "main.1d1b3f8b.js.map": "/static/js/main.1d1b3f8b.js.map"
+    "main.css": "/CampusMate1/DataBase-Code/static/css/main.6bebdc19.css",
+    "main.js": "/CampusMate1/DataBase-Code/static/js/main.1d1b3f8b.js",
+    "index.html": "/CampusMate1/DataBase-Code/index.html",
+    "main.6bebdc19.css.map": "/CampusMate1/DataBase-Code/static/css/main.6bebdc19.css.map",
+    "main.1d1b3f8b.js.map": "/CampusMate1/DataBase-Code/static/js/main.1d1b3f8b.js.map"
   },
   "entrypoints": [
     "static/css/main.6bebdc19.css",
