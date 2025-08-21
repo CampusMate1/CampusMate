@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CampusMate Login</title>
+    <style>
+      body {
+        font-family: Arial;
+        background: #f0f0f0;
+        padding: 30px;
+      }
+      .form-container {
+        background: white;
+        max-width: 400px;
+        margin: auto;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #ccc;
+      }
+      label {
+        display: block;
+        margin: 10px 0 5px;
+      }
+      input, button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border: 1px solid #aaa;
+      }
+      button {
+        background: #007BFF;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="form-container">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <label for="studentNumber">Student Number</label>
+        <input type="text" id="studentNumber" required placeholder="219123456" />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" required placeholder="your@mycput.ac.za" />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" required placeholder="Enter password" />
+
+        <button type="submit">Login</button>
+      </form>
+    </div>
+
+    <script>
+      document.getElementById("loginForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const stud_no = document.getElementById("studentNumber").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        if (!email.endsWith("@mycput.ac.za")) {
+          return alert("Only mycput.ac.za emails allowed");
+        }
+
+        try {
+          const res = await fetch("http://localhost:3000/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, stud_no, password }),
+          });
+
+          const data = await res.json();
+
+          if (res.ok) {
+            alert(data.message);
+            // redirect if needed
+            // window.location.href = "dashboard.html";
+          } else {
+            alert("❌ " + data.message);
+          }
+        } catch (err) {
+          console.error("Network error:", err);
+          alert("Server error: " + err.message);
+        }
+      });
+    </script>
+  </body>
+</html>

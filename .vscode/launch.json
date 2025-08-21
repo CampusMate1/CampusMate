@@ -5,6 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
+<<<<<<< HEAD
             "name": "Launch Chrome",
             "request": "launch",
             "type": "chrome",
@@ -16,6 +17,12 @@
             "request": "launch",
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:8080",
+=======
+            "type": "msedge",
+            "request": "launch",
+            "name": "Launch msedge against localhost",
+            "url": "http://localhost:3000",
+>>>>>>> camp-back
             "webRoot": "${workspaceFolder}"
         }
     ]
