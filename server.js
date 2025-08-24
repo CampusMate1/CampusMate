@@ -8,7 +8,7 @@ const path = require('path');
 const app = express();
 app.use(cors());
 
-// Or configure it more specifically:
+
 app.use(cors({
   origin: 'http://localhost:3000', // or your frontend URL
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -311,3 +311,60 @@ app.delete('/employees/:employee_id', (req, res) => {
 
 
 });
+
+//Get department info route
+app.get('/department /:department_id' ,async (req,res ) =>{
+  console.log(req.body);
+    
+      db.query("SELECT * FROM department WHERE department_id = ?", (err, results) => {
+        if (err) {
+          console.error("❌ Department not found !:", err);
+          return res.status(500).json({ message: "Database error" });
+        }
+        res.status(200).json(results);
+        res.send(results);
+      });
+      
+  
+    
+});
+
+// Register Employee
+app.post('/insert-department', async (req, res) => {
+  console.log(req.body);
+  const {
+   department_name ,
+   description,
+   contact_email,
+    location,
+    updated_at,
+    
+  } = req.body;
+
+  if (!department_name || !description || !contact_email || !location || !updated_at ) {
+    return res.status(400).json({ message: "All required fields must be filled" });
+  }
+  
+  
+  try {
+   
+    const sql = `
+      INSERT INTO department
+      (department_name, description, contact_email, location, updated_at,)
+      VALUES (?, ?, ?, ?, ?)`;
+
+    db.query(sql, [department_name, description, contact_email, location, updated_at], (err, result) => {
+      if (err) {
+        console.error("❌ Insertion error:", err);
+        return res.status(500).json({ message: 'Failed to update department info', error: err.message});
+      }
+      res.status(201).json({ message: '✅ Department information updated successfully' });
+      console.log(result);
+    });
+  } catch (error) {
+    console.error("❌ Server error:", error);
+    
+  }
+  
+});
+
